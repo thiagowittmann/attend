@@ -2,6 +2,10 @@
 <resources>
     <string name="app_name">Attend</string>
 
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="cancel">Cancelar</string>
+
     <string name="loading">Carregando...</string>
     <string name="con_error">Erro de conexão</string>
     <string name="no_talks">Nenhuma palestra encontrada</string>
@@ -9,4 +13,16 @@
     <string name="refresh">Atualizar</string>
 
     <string name="server_ip">IP do servidor</string>
+
+    <string name="talk">Palestra</string>
+    <string name="no_viewers">Nenhum inscrito foi encontrado</string>
+    <string name="confirm_attendance">Confirmar presença</string>
+    <string name="confirm_attendance1">Deseja confirmar a presença de </string>
+    <string name="confirm_attendance2">\?</string>
+    <string name="disconfirm_attendance">Desconfirmar presença</string>
+    <string name="disconfirm_attendance1">Deseja desconfirmar a presença de </string>
+    <string name="disconfirm_attendance2">\?</string>
+    <string name="attendance_not_updated">Presença não atualizada</string>
+    <string name="confirmed_attendance">Presença confirmada</string>
+    <string name="disconfirmed_attendance">Presença desconfirmada</string>
 </resources>

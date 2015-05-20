@@ -27,6 +27,16 @@
                 android:value="com.thiagowittmann.attend.MainActivity" />
         </activity>
 
+        <activity
+            android:name="com.thiagowittmann.attend.TalkActivity"
+            android:label="@string/talk"
+            android:parentActivityName="com.thiagowittmann.attend.MainActivity"
+            android:configChanges="orientation|screenSize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thiagowittmann.attend.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

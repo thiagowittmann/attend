@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".TalkActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="100"
+            android:id="@+id/viewers_listview"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true">
+
+            <ImageButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_margin="0px"
+                android:padding="10px"
+                android:src="@drawable/refresh"
+                android:background="@drawable/button_drawable"
+                android:id="@+id/refresh_button"
+                android:onClick="refresh"/>
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="fill_parent"
+                android:background="@color/defaultColor_darker"/>
+
+            <ImageButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_margin="0px"
+                android:padding="10px"
+                android:src="@drawable/account_star"
+                android:background="@drawable/button_drawable"
+                android:id="@+id/raffle_button"
+                android:onClick="raffle"/>
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="fill_parent"
+                android:background="@color/defaultColor_darker"/>
+
+
+            <ImageButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="0px"
+                android:padding="10px"
+                android:src="@drawable/qrcode"
+                android:background="@drawable/button_drawable"
+                android:id="@+id/qr_button"
+                android:onClick="startQR"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/talkAlert"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:visibility="invisible" />
+
+</RelativeLayout>

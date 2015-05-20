@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Attend</string>
 
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+
     <string name="loading">Loading...</string>
     <string name="con_error">Connection error</string>
     <string name="no_talks">No talks were found</string>
@@ -8,5 +12,17 @@
     <string name="refresh">Refresh</string>
 
     <string name="server_ip">Server IP</string>
+
+    <string name="talk">Talk</string>
+    <string name="no_viewers">No viewers were found</string>
+    <string name="confirm_attendance">Confirm attendance</string>
+    <string name="confirm_attendance1">Would you like to confirm </string>
+    <string name="confirm_attendance2">\'s attendance\?</string>
+    <string name="disconfirm_attendance">Disconfirm attendance</string>
+    <string name="disconfirm_attendance1">Would you like to disconfirm </string>
+    <string name="disconfirm_attendance2">\'s attendance\?</string>
+    <string name="attendance_not_updated">Attendance not updated</string>
+    <string name="confirmed_attendance">Attendance confirmed</string>
+    <string name="disconfirmed_attendance">Attendance disconfirmed</string>
 
 </resources>

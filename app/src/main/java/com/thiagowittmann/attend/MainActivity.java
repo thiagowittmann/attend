@@ -146,11 +146,11 @@ public class MainActivity extends ActionBarActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View item,
                                                     final int position, long id) {
-                                /*Palestra palestra = arrayAdapter.getItem(position);
-                                Intent intent = new Intent(MainActivity.this, PalestraActivity.class);
-                                intent.putExtra("palestra.id", palestra.getId());
-                                intent.putExtra("palestra.name", palestra.getName());
-                                intent.putExtra("palestra.speaker", palestra.getSpeaker());
+                                /*Talk talk = arrayAdapter.getItem(position);
+                                Intent intent = new Intent(MainActivity.this, TalkActivity.class);
+                                intent.putExtra("talk.id", talk.getId());
+                                intent.putExtra("talk.name", talk.getName());
+                                intent.putExtra("talk.speaker", talk.getSpeaker());
                                 startActivity(intent);*/
                             }
                         });
