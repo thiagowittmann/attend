@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="defaultColor">#c6595c</color>
+    <color name="defaultColor_darker">#923f42</color>
+    <color name="grey">#f3f3f3</color>
+</resources>
