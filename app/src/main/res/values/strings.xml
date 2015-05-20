@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Attend</string>
+
+    <string name="loading">Loading...</string>
+    <string name="con_error">Connection error</string>
+    <string name="no_talks">No talks were found</string>
+    <string name="settings">Settings</string>
+    <string name="refresh">Refresh</string>
+
+    <string name="server_ip">Server IP</string>
+
 </resources>

@@ -8,6 +8,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -66,7 +69,7 @@ public class MainActivity extends ActionBarActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             mainAlert = (TextView) findViewById(R.id.mainAlert);
-            mainAlert.setText("Loading...");
+            mainAlert.setText(getResources().getString(R.string.loading));
             mainAlert.setVisibility(View.VISIBLE);
         }
 
@@ -83,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mainAlert.setText("Connection error");
+                        mainAlert.setText(getResources().getString(R.string.con_error));
                         mainAlert.setVisibility(View.VISIBLE);
                     }
                 });
@@ -125,7 +128,7 @@ public class MainActivity extends ActionBarActivity {
 
         protected void onPostExecute(String file_url) {
             if(talksList.size() == 0 && !conErr){
-                mainAlert.setText("No talks were found");
+                mainAlert.setText(getResources().getString(R.string.no_talks));
                 mainAlert.setVisibility(View.VISIBLE);
 
             } else if(!conErr) {
@@ -157,6 +160,32 @@ public class MainActivity extends ActionBarActivity {
 
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.refresh:
+                talksList.clear();
+                finish();
+                startActivity(getIntent());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

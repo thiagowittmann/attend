@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Attend</string>
+
+    <string name="loading">Carregando...</string>
+    <string name="con_error">Erro de conexão</string>
+    <string name="no_talks">Nenhuma palestra encontrada</string>
+    <string name="settings">Preferências</string>
+    <string name="refresh">Atualizar</string>
+
+    <string name="server_ip">IP do servidor</string>
+</resources>
