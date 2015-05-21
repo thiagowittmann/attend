@@ -1,16 +1,20 @@
 package com.thiagowittmann.attend;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by thiago on 5/20/15.
@@ -83,6 +88,103 @@ public class TalkActivity extends ActionBarActivity {
 
         viewers_listview = (ListView) findViewById(R.id.viewers_listview);
         new LoadViewers().execute();
+    }
+
+
+    public void startQR(View view){
+
+        try {
+            //start the scanning activity from the com.google.zxing.client.android.SCAN intent
+            Intent intent = new Intent(ACTION_SCAN);
+            intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+            startActivityForResult(intent, 0);
+        } catch (ActivityNotFoundException anfe) {
+            showDialog(this, getResources().getString(R.string.qrreader_not_found), getResources().getString(R.string.would_you_like_to_download), getResources().getString(R.string.yes), getResources().getString(R.string.no)).show();
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent)    {
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                //get the extras that are returned from the intent
+                boolean found = false;
+                String contents = intent.getStringExtra("SCAN_RESULT");
+                for (int i = 0; i < arrayAdapter.getCount(); i++) {
+                    if(arrayAdapter.getItem(i).getQRID().equals(contents)) {
+                        found = true;
+                        if(!viewers_listview.isItemChecked(i)){
+                            checkAttendance(i);
+                        } else {
+                            Toast toast = Toast.makeText(this, getResources().getString(R.string.attendance_already_confirmed) + arrayAdapter.getItem(i).getName(), Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                        break;
+                    }
+                }
+                if(!found) {
+                    Toast toast = Toast.makeText(this, getResources().getString(R.string.id_not_found), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        }
+    }
+
+    public void raffle(View view){
+        AlertDialog.Builder raffle = new AlertDialog.Builder(TalkActivity.this);
+        raffle.setTitle(getResources().getString(R.string.raffle));
+        raffle.setMessage(" ");
+        raffle.setPositiveButton(getResources().getString(R.string.raffle_action), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Random myRandomizer = new Random();
+                SparseBooleanArray attendants = viewers_listview.getCheckedItemPositions();
+                AlertDialog.Builder lucky = new AlertDialog.Builder(TalkActivity.this);
+                lucky.setTitle(":)");
+                if(attendants.size() == 0) {
+                    lucky.setMessage(getResources().getString(R.string.no_viewers));
+                } else {
+                    int sorteado = attendants.keyAt(myRandomizer.nextInt(attendants.size()));
+                    lucky.setMessage(arrayAdapter.getItem(sorteado).getName());
+                }
+                lucky.setNegativeButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int i){
+                    }
+                });
+                lucky.show();
+            }
+        });
+        raffle.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i){
+            }
+        });
+        raffle.show();
+    }
+
+    public void refresh(View view){
+        viewersList.clear();
+        finish();
+        startActivity(getIntent());
+    }
+
+    private static AlertDialog showDialog(final Activity act, CharSequence title, CharSequence message, CharSequence buttonYes, CharSequence buttonNo) {
+        AlertDialog.Builder downloadDialog = new AlertDialog.Builder(act);
+        downloadDialog.setTitle(title);
+        downloadDialog.setMessage(message);
+        downloadDialog.setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Uri uri = Uri.parse("market://search?q=pname:" + "com.google.zxing.client.android");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                try {
+                    act.startActivity(intent);
+                } catch (ActivityNotFoundException anfe) {
+
+                }
+            }
+        });
+        downloadDialog.setNegativeButton(buttonNo, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        return downloadDialog.show();
     }
 
     public void checkAttendance(int position) {

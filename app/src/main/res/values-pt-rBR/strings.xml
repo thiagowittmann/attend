@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Attend</string>
 
     <string name="yes">Sim</string>
     <string name="no">Não</string>
@@ -25,4 +24,10 @@
     <string name="attendance_not_updated">Presença não atualizada</string>
     <string name="confirmed_attendance">Presença confirmada</string>
     <string name="disconfirmed_attendance">Presença desconfirmada</string>
+    <string name="qrreader_not_found">Leitor de QR não encontrado</string>
+    <string name="would_you_like_to_download">Gostaria de baixa-lo\?</string>
+    <string name="attendance_already_confirmed">Presença já confirmada para </string>
+    <string name="id_not_found">ID QR não inscrito nessa palestra</string>
+    <string name="raffle">Sorteio</string>
+    <string name="raffle_action">Sortear</string>
 </resources>

@@ -4,6 +4,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
 
     <string name="loading">Loading...</string>
     <string name="con_error">Connection error</string>
@@ -24,5 +25,11 @@
     <string name="attendance_not_updated">Attendance not updated</string>
     <string name="confirmed_attendance">Attendance confirmed</string>
     <string name="disconfirmed_attendance">Attendance disconfirmed</string>
+    <string name="qrreader_not_found">QR Reader not found</string>
+    <string name="would_you_like_to_download">Would you like to download it?</string>
+    <string name="attendance_already_confirmed">Attendance already confirmed to </string>
+    <string name="id_not_found">QR id not found in this talk</string>
+    <string name="raffle">Raffle</string>
+    <string name="raffle_action">Raffle</string>
 
 </resources>
