@@ -72,6 +72,7 @@ public class TalkActivity extends ActionBarActivity {
         serverIP = settings.getString("serverIP", DEF_IP);
 
         Intent incomingIntent = getIntent();
+        Log.d("Received: ", incomingIntent.getStringExtra("talk.id"));
         talkId = Integer.parseInt(incomingIntent.getStringExtra("talk.id"));
         talkName = incomingIntent.getStringExtra("talk.name");
         talkSpeaker = incomingIntent.getStringExtra("talk.speaker");

@@ -95,6 +95,8 @@ public class MainActivity extends ActionBarActivity {
             }
             conErr = false;
 
+            Log.d("Talks: ", json.toString());
+
             try {
                 int success = json.getInt(TAG_SUCCESS);
 
@@ -107,6 +109,8 @@ public class MainActivity extends ActionBarActivity {
                         String id = c.getString(TAG_ID);
                         String name = c.getString(TAG_NAME);
                         String speaker = c.getString(TAG_SPEAKER);
+
+                        Log.d("id: ", id.toString());
 
                         talksList.add(new Talk(id, name, speaker));
                     }
@@ -146,12 +150,13 @@ public class MainActivity extends ActionBarActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View item,
                                                     final int position, long id) {
-                                /*Talk talk = arrayAdapter.getItem(position);
+                                Talk talk = arrayAdapter.getItem(position);
+                                Log.d("Sent: ", talk.getId());
                                 Intent intent = new Intent(MainActivity.this, TalkActivity.class);
                                 intent.putExtra("talk.id", talk.getId());
                                 intent.putExtra("talk.name", talk.getName());
                                 intent.putExtra("talk.speaker", talk.getSpeaker());
-                                startActivity(intent);*/
+                                startActivity(intent);
                             }
                         });
                     }
