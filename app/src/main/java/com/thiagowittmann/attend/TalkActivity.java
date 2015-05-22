@@ -115,7 +115,7 @@ public class TalkActivity extends ActionBarActivity {
                         if(!viewers_listview.isItemChecked(i)){
                             checkAttendance(i);
                         } else {
-                            Toast toast = Toast.makeText(this, getResources().getString(R.string.attendance_already_confirmed) + arrayAdapter.getItem(i).getName(), Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(this, getResources().getString(R.string.attendance_already_confirmed) + " " + arrayAdapter.getItem(i).getName(), Toast.LENGTH_SHORT);
                             toast.show();
                         }
                         break;
@@ -289,7 +289,7 @@ public class TalkActivity extends ActionBarActivity {
                                 if (viewers_listview.isItemChecked(position)) {
                                     AlertDialog.Builder confirmar = new AlertDialog.Builder(TalkActivity.this);
                                     confirmar.setTitle(getResources().getString(R.string.confirm_attendance));
-                                    confirmar.setMessage(getResources().getString(R.string.confirm_attendance1) + arrayAdapter.getItem(position).getName() + getResources().getString(R.string.confirm_attendance2));
+                                    confirmar.setMessage(getResources().getString(R.string.confirm_attendance1) + " " + arrayAdapter.getItem(position).getName() + getResources().getString(R.string.confirm_attendance2));
                                     confirmar.setCancelable(false);
                                     confirmar.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -305,7 +305,7 @@ public class TalkActivity extends ActionBarActivity {
                                 } else {
                                     AlertDialog.Builder desconfirmar = new AlertDialog.Builder(TalkActivity.this);
                                     desconfirmar.setTitle(getResources().getString(R.string.disconfirm_attendance));
-                                    desconfirmar.setMessage(getResources().getString(R.string.disconfirm_attendance) + arrayAdapter.getItem(position).getName() + getResources().getString(R.string.disconfirm_attendance));
+                                    desconfirmar.setMessage(getResources().getString(R.string.disconfirm_attendance1) + " " + arrayAdapter.getItem(position).getName() + getResources().getString(R.string.disconfirm_attendance2));
                                     desconfirmar.setCancelable(false);
                                     desconfirmar.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -362,9 +362,9 @@ public class TalkActivity extends ActionBarActivity {
         protected String doInBackground(String... args) {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("id_viewer", id_viewer));
-            params.add(new BasicNameValuePair("id_talk", id_talk));
-            params.add(new BasicNameValuePair("attendance", attendance));
+            params.add(new BasicNameValuePair("id_pessoa", id_viewer));
+            params.add(new BasicNameValuePair("id_palestra", id_talk));
+            params.add(new BasicNameValuePair("presente", attendance));
 
             // getting JSON string from URL
             jParser = null;
