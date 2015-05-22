@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String PREFS_NAME = "AttendFile";
 
     public static final String DEF_IP = "192.168.0.100";
-    private static String url_all_talks = "/android_connect/getallpalestras.php";
+    private static String url_all_talks = "/~thiago/android_connect/getallpalestras.php";
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_TALKS = "palestras";

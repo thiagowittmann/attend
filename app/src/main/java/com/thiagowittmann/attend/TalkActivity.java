@@ -42,8 +42,8 @@ public class TalkActivity extends ActionBarActivity {
 
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
-    private static String url_talk_viewers = "/android_connect/getallinscritos.php";
-    private static String url_set_attendance = "/android_connect/confirmarpresenca.php";
+    private static String url_talk_viewers = "/~thiago/android_connect/getallinscritos.php";
+    private static String url_set_attendance = "/~thiago/android_connect/confirmarpresenca.php";
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_VIEWERS = "pessoas";
@@ -59,7 +59,7 @@ public class TalkActivity extends ActionBarActivity {
     private int attendSuccess = 0;
     private String talkName;
     private String talkSpeaker;
-    private int talkId;
+    private String talkId;
     private ArrayAdapter<Viewer> arrayAdapter;
     private JSONParser jParser;
     private JSONArray viewersJson = null;
@@ -77,8 +77,8 @@ public class TalkActivity extends ActionBarActivity {
         serverIP = settings.getString("serverIP", DEF_IP);
 
         Intent incomingIntent = getIntent();
-        Log.d("Received: ", incomingIntent.getStringExtra("talk.id"));
-        talkId = Integer.parseInt(incomingIntent.getStringExtra("talk.id"));
+
+        talkId = incomingIntent.getStringExtra("talk.id");
         talkName = incomingIntent.getStringExtra("talk.name");
         talkSpeaker = incomingIntent.getStringExtra("talk.speaker");
 
@@ -129,7 +129,7 @@ public class TalkActivity extends ActionBarActivity {
         }
     }
 
-    public void raffle(View view){
+    public void raffle(View view) {
         AlertDialog.Builder raffle = new AlertDialog.Builder(TalkActivity.this);
         raffle.setTitle(getResources().getString(R.string.raffle));
         raffle.setMessage(" ");
@@ -159,7 +159,7 @@ public class TalkActivity extends ActionBarActivity {
         raffle.show();
     }
 
-    public void refresh(View view){
+    public void refresh(View view) {
         viewersList.clear();
         finish();
         startActivity(getIntent());
@@ -188,11 +188,11 @@ public class TalkActivity extends ActionBarActivity {
     }
 
     public void checkAttendance(int position) {
-        new setAttendance(arrayAdapter.getItem(position).getID(), Integer.toString(talkId), "1", position).execute();
+        new setAttendance(arrayAdapter.getItem(position).getID(), talkId, "1", position).execute();
     }
 
     public void uncheckAttendance(int position) {
-        new setAttendance(arrayAdapter.getItem(position).getID(), Integer.toString(talkId), "0", position).execute();
+        new setAttendance(arrayAdapter.getItem(position).getID(), talkId, "0", position).execute();
     }
 
 
@@ -215,7 +215,7 @@ public class TalkActivity extends ActionBarActivity {
         protected String doInBackground(String... args) {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("talk_id", Integer.toString(talkId)));
+            params.add(new BasicNameValuePair("talk_id", talkId));
             // getting JSON string from URL
             jParser = null;
             jParser = new JSONParser();
@@ -255,11 +255,6 @@ public class TalkActivity extends ActionBarActivity {
 
                         viewersList.add(new Viewer(id, name, qrid, attendance));
                     }
-                } else {
-                    Intent i = new Intent(getApplicationContext(),
-                            TalkActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
