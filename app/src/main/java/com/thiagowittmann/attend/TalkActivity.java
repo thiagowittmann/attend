@@ -215,7 +215,7 @@ public class TalkActivity extends ActionBarActivity {
         protected String doInBackground(String... args) {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("talk_id", talkId));
+            params.add(new BasicNameValuePair("palestra_id", talkId));
             // getting JSON string from URL
             jParser = null;
             jParser = new JSONParser();
