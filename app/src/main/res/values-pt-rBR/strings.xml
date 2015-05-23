@@ -11,7 +11,7 @@
     <string name="settings">Preferências</string>
     <string name="refresh">Atualizar</string>
 
-    <string name="server_ip">IP do servidor</string>
+    <string name="server_address">Endereço do servidor</string>
 
     <string name="talk">Palestra</string>
     <string name="no_viewers">Nenhum inscrito foi encontrado</string>

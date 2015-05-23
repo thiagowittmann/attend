@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class SettingsActivity extends ActionBarActivity {
 
     public static final String PREFS_NAME = "AttendFile";
-    public static final String DEF_IP = "192.168.0.100";
+    private String DEF_ADDRESS;
 
     private String serverIP;
     private TextView IpField;
@@ -27,14 +27,16 @@ public class SettingsActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.defaultColor)));
 
+        DEF_ADDRESS = getResources().getString(R.string.default_address);
+
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        serverIP = settings.getString("serverIP", DEF_IP);
+        serverIP = settings.getString("serverIP", DEF_ADDRESS);
 
         IpField = (TextView) findViewById(R.id.serverIpField);
         IpField.setText(serverIP);
 
         TextView IpText = (TextView) findViewById(R.id.serverIpTextView);
-        IpText.setText(getResources().getString(R.string.server_ip));
+        IpText.setText(getResources().getString(R.string.server_address));
     }
 
     @Override

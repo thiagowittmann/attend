@@ -32,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
 
     public static final String PREFS_NAME = "AttendFile";
 
-    public static final String DEF_IP = "192.168.0.100";
+    private String DEF_ADDRESS;
     private static String url_all_talks = "/~thiago/android_connect/getallpalestras.php";
 
     private static final String TAG_SUCCESS = "success";
@@ -56,8 +56,10 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.defaultColor)));
 
+        DEF_ADDRESS = getResources().getString(R.string.default_address);
+
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        serverIP = settings.getString("serverIP", DEF_IP);
+        serverIP = settings.getString("serverIP", DEF_ADDRESS);
 
         talks_listview = (ListView) findViewById(R.id.talks_listview);
         new LoadTalks().execute();

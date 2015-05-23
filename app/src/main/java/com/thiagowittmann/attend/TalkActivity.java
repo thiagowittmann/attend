@@ -38,7 +38,7 @@ import java.util.Random;
 public class TalkActivity extends ActionBarActivity {
 
     public static final String PREFS_NAME = "AttendFile";
-    public static final String DEF_IP = "192.168.0.100";
+    private String DEF_ADDRESS;
 
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
@@ -73,8 +73,10 @@ public class TalkActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_talk);
 
+        DEF_ADDRESS = getResources().getString(R.string.default_address);
+
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        serverIP = settings.getString("serverIP", DEF_IP);
+        serverIP = settings.getString("serverIP", DEF_ADDRESS);
 
         Intent incomingIntent = getIntent();
 
