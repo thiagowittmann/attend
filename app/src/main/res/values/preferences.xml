@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Default server address -->
     <string name="default_address">192.168.0.100</string>
+
+    <string name="url_all_talks">/~thiago/android_connect/getallpalestras.php</string>
+    <string name="url_talk_viewers">/~thiago/android_connect/getallinscritos.php</string>
+    <string name="url_set_attendance">/~thiago/android_connect/confirmarpresenca.php</string>
 </resources>

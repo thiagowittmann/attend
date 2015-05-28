@@ -2,7 +2,6 @@ package com.thiagowittmann.attend;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -42,8 +41,8 @@ public class TalkActivity extends ActionBarActivity {
 
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
-    private static String url_talk_viewers = "/~thiago/android_connect/getallinscritos.php";
-    private static String url_set_attendance = "/~thiago/android_connect/confirmarpresenca.php";
+    private String url_talk_viewers;
+    private String url_set_attendance;
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_VIEWERS = "pessoas";
@@ -65,7 +64,6 @@ public class TalkActivity extends ActionBarActivity {
     private JSONArray viewersJson = null;
     private List<Viewer> viewersList = new ArrayList<Viewer>();
     private ProgressDialog pDialog;
-    private Dialog eDialog;
     private String serverIP;
 
     @Override
@@ -73,13 +71,18 @@ public class TalkActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_talk);
 
+        // Getting connection preferences
         DEF_ADDRESS = getResources().getString(R.string.default_address);
+        url_talk_viewers = getResources().getString(R.string.url_talk_viewers);
+        url_set_attendance = getResources().getString(R.string.url_set_attendance);
 
+        // Getting stored server address
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         serverIP = settings.getString("serverIP", DEF_ADDRESS);
 
         Intent incomingIntent = getIntent();
 
+        // Getting message from previous intent
         talkId = incomingIntent.getStringExtra("talk.id");
         talkName = incomingIntent.getStringExtra("talk.name");
         talkSpeaker = incomingIntent.getStringExtra("talk.speaker");
@@ -89,14 +92,15 @@ public class TalkActivity extends ActionBarActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.defaultColor)));
 
         viewers_listview = (ListView) findViewById(R.id.viewers_listview);
+
         new LoadViewers().execute();
     }
 
 
+    // Opens external app used to scan QR codes
     public void startQR(View view){
 
         try {
-            //start the scanning activity from the com.google.zxing.client.android.SCAN intent
             Intent intent = new Intent(ACTION_SCAN);
             intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
             startActivityForResult(intent, 0);
@@ -105,10 +109,11 @@ public class TalkActivity extends ActionBarActivity {
         }
     }
 
+
+    // Returns QR code from external app
     public void onActivityResult(int requestCode, int resultCode, Intent intent)    {
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
-                //get the extras that are returned from the intent
                 boolean found = false;
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 for (int i = 0; i < arrayAdapter.getCount(); i++) {
@@ -130,6 +135,7 @@ public class TalkActivity extends ActionBarActivity {
             }
         }
     }
+
 
     public void raffle(View view) {
         AlertDialog.Builder raffle = new AlertDialog.Builder(TalkActivity.this);
@@ -161,11 +167,13 @@ public class TalkActivity extends ActionBarActivity {
         raffle.show();
     }
 
+
     public void refresh(View view) {
         viewersList.clear();
         finish();
         startActivity(getIntent());
     }
+
 
     private static AlertDialog showDialog(final Activity act, CharSequence title, CharSequence message, CharSequence buttonYes, CharSequence buttonNo) {
         AlertDialog.Builder downloadDialog = new AlertDialog.Builder(act);
@@ -198,22 +206,19 @@ public class TalkActivity extends ActionBarActivity {
     }
 
 
+    // Async task used to load all viewers from a given talk
     class LoadViewers extends AsyncTask<String, String, String> {
 
-        /**
-         * Before starting background thread Show Progress Dialog
-         * */
         @Override
         protected void onPreExecute() {
+            // Creating a loading message
             super.onPreExecute();
             talkAlert = (TextView) findViewById(R.id.talkAlert);
             talkAlert.setText(getResources().getString(R.string.loading));
             talkAlert.setVisibility(View.VISIBLE);
         }
 
-        /**
-         * getting All talks from url
-         * */
+        // HTTP request and JSON verification
         protected String doInBackground(String... args) {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -221,7 +226,7 @@ public class TalkActivity extends ActionBarActivity {
             // getting JSON string from URL
             jParser = null;
             jParser = new JSONParser();
-            JSONObject json = null;
+            JSONObject json;
 
             json = jParser.makeHttpRequest("http://" + serverIP + url_talk_viewers, "GET", params);
             if(jParser.getError()){
@@ -237,7 +242,7 @@ public class TalkActivity extends ActionBarActivity {
             }
 
             conErr = false;
-            // Check your log cat for JSON reponse
+            // Check your log cat for JSON response
             Log.d("Viewers: ", json.toString());
 
             try {
@@ -289,37 +294,37 @@ public class TalkActivity extends ActionBarActivity {
                                                     final int position, long id) {
 
                                 if (viewers_listview.isItemChecked(position)) {
-                                    AlertDialog.Builder confirmar = new AlertDialog.Builder(TalkActivity.this);
-                                    confirmar.setTitle(getResources().getString(R.string.confirm_attendance));
-                                    confirmar.setMessage(getResources().getString(R.string.confirm_attendance1) + " " + arrayAdapter.getItem(position).getName() + getResources().getString(R.string.confirm_attendance2));
-                                    confirmar.setCancelable(false);
-                                    confirmar.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                    AlertDialog.Builder confirm = new AlertDialog.Builder(TalkActivity.this);
+                                    confirm.setTitle(getResources().getString(R.string.confirm_attendance));
+                                    confirm.setMessage(getResources().getString(R.string.confirm_attendance1) + " " + arrayAdapter.getItem(position).getName() + getResources().getString(R.string.confirm_attendance2));
+                                    confirm.setCancelable(false);
+                                    confirm.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             checkAttendance(position);
                                         }
                                     });
-                                    confirmar.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                                    confirm.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             viewers_listview.setItemChecked(position, false);
                                         }
                                     });
-                                    confirmar.show();
+                                    confirm.show();
                                 } else {
-                                    AlertDialog.Builder desconfirmar = new AlertDialog.Builder(TalkActivity.this);
-                                    desconfirmar.setTitle(getResources().getString(R.string.disconfirm_attendance));
-                                    desconfirmar.setMessage(getResources().getString(R.string.disconfirm_attendance1) + " " + arrayAdapter.getItem(position).getName() + getResources().getString(R.string.disconfirm_attendance2));
-                                    desconfirmar.setCancelable(false);
-                                    desconfirmar.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                    AlertDialog.Builder disconfirm = new AlertDialog.Builder(TalkActivity.this);
+                                    disconfirm.setTitle(getResources().getString(R.string.disconfirm_attendance));
+                                    disconfirm.setMessage(getResources().getString(R.string.disconfirm_attendance1) + " " + arrayAdapter.getItem(position).getName() + getResources().getString(R.string.disconfirm_attendance2));
+                                    disconfirm.setCancelable(false);
+                                    disconfirm.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             uncheckAttendance(position);
                                         }
                                     });
-                                    desconfirmar.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                                    disconfirm.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             viewers_listview.setItemChecked(position, true);
                                         }
                                     });
-                                    desconfirmar.show();
+                                    disconfirm.show();
                                 }
                             }
                         });
@@ -338,6 +343,7 @@ public class TalkActivity extends ActionBarActivity {
 
     }
 
+    // Async task used to confirm attendance
     class setAttendance extends AsyncTask<String, String, String> {
 
         private String id_viewer;
@@ -353,6 +359,7 @@ public class TalkActivity extends ActionBarActivity {
 
         @Override
         protected void onPreExecute() {
+            // Creating a loading message
             super.onPreExecute();
             pDialog = new ProgressDialog(TalkActivity.this);
             pDialog.setMessage(getResources().getString(R.string.loading));
@@ -371,7 +378,7 @@ public class TalkActivity extends ActionBarActivity {
             // getting JSON string from URL
             jParser = null;
             jParser = new JSONParser();
-            JSONObject json = null;
+            JSONObject json;
 
             json = jParser.makeHttpRequest("http://" + serverIP + url_set_attendance, "GET", params);
             if(jParser.getError()){

@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String PREFS_NAME = "AttendFile";
 
     private String DEF_ADDRESS;
-    private static String url_all_talks = "/~thiago/android_connect/getallpalestras.php";
+    private static String url_all_talks;
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_TALKS = "palestras";
@@ -56,32 +56,39 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.defaultColor)));
 
+        // Getting connection preferences
         DEF_ADDRESS = getResources().getString(R.string.default_address);
+        url_all_talks = getResources().getString(R.string.url_all_talks);
 
+        // Getting stored server address
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         serverIP = settings.getString("serverIP", DEF_ADDRESS);
 
         talks_listview = (ListView) findViewById(R.id.talks_listview);
+
         new LoadTalks().execute();
     }
 
+
+    // Async task used to load the list of all stored talks
     class LoadTalks extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
+            // Creating a loading message
             super.onPreExecute();
             mainAlert = (TextView) findViewById(R.id.mainAlert);
             mainAlert.setText(getResources().getString(R.string.loading));
             mainAlert.setVisibility(View.VISIBLE);
         }
 
-
+        // HTTP request and JSON verification
         protected String doInBackground(String... args) {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
             jParser = null;
             jParser = new JSONParser();
-            JSONObject json = null;
+            JSONObject json;
 
             json = jParser.makeHttpRequest("http://" + serverIP + url_all_talks, "GET", params);
             if(jParser.getError()){
